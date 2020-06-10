@@ -42,7 +42,22 @@ function getAverageMark(marks) {
   return result;
 }
 
+// 
+
 function askDrink(name, dateOfBirthday) {
   // код для задачи №3 писать здесь
+  let result = `Сожалею, ${name}, но я не могу вам продать алкоголь. Зато могу предложить вам замечательный клюквенный компот!`;
+  if (checkAge(dateOfBirthday)) {
+    result = `Не желаете ли олд-фэшн, ${name}?`;
+  } 
   // return result;
+  return result;
 }
+
+function checkAge(dateOfBirthday) {
+  let date = dateOfBirthday;
+  let currentDate = new Date().getTime();
+  let result = (currentDate - date - 567648000007.72) >= 0;
+  return result;
+}
+
