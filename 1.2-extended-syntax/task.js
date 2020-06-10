@@ -23,9 +23,23 @@ function getSecondRoot(a, b, discriminantis) {
   return root;
 }
 
+// 
+
 function getAverageMark(marks) {
   // код для задачи №2 писать здесь
+  let result = 0;
+  if (marks.length) {
+    if (marks.length > 5) {
+      console.log("в массиве больше 5 оценок");
+      marks.splice(5);
+    }
+    for (let i = 0; i < marks.length; i++) {
+      result += marks[i];
+    }
+    result /= marks.length;
+  }
   // return averageMark;
+  return result;
 }
 
 function askDrink(name, dateOfBirthday) {
