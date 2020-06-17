@@ -4,10 +4,11 @@
 String.prototype.isPalindrome = function () {
   let result = true;
   const strToLower = String(this).toLowerCase();
-  const strReverse = strToLower.split("").reverse().join("");
+  const strDeleteSpaces =  strToLower.split(' ').join('')
+  const strReverse = strDeleteSpaces.split('').reverse().join('');
 
   for (let i = 0; i < strToLower.length; i++) {
-    if (strToLower[i] !== strReverse[i]) {
+    if (strDeleteSpaces[i] !== strReverse[i]) {
       result = !result;
       break;
     }
@@ -15,6 +16,8 @@ String.prototype.isPalindrome = function () {
 
   return result;
 };
+
+
 
 //
 
