@@ -45,8 +45,6 @@ function getSumMonths(date) {
   return result;
 }
 
-calculateTotalMortgage(10, 1000, 50000, new Date(new Date().setFullYear(new Date().getFullYear() + 1)));
-
 //
 
 function getGreeting(name) {
