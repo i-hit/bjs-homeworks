@@ -4,8 +4,8 @@
 String.prototype.isPalindrome = function () {
   let result = true;
   const strToLower = String(this).toLowerCase();
-  const strDeleteSpaces =  strToLower.split(' ').join('')
-  const strReverse = strDeleteSpaces.split('').reverse().join('');
+  const strDeleteSpaces = strToLower.split(" ").join("");
+  const strReverse = strDeleteSpaces.split("").reverse().join("");
 
   for (let i = 0; i < strToLower.length; i++) {
     if (strDeleteSpaces[i] !== strReverse[i]) {
@@ -16,8 +16,6 @@ String.prototype.isPalindrome = function () {
 
   return result;
 };
-
-
 
 //
 
@@ -35,7 +33,6 @@ function getAverageMark(marks) {
 
   const roundedAverage = Math.round(average);
   // return averageMark
-  console.log(average, roundedAverage);
   return roundedAverage;
 }
 
@@ -43,5 +40,10 @@ function getAverageMark(marks) {
 
 function checkBirthday(birthday) {
   // код для задачи №3 писать здесь
-  // return verdict
+    const now = Date.now();
+    const birthdayUser = new Date(birthday).valueOf();
+    const dateTest = 18 * 24 * 3600 * 365.25 * 1000;
+
+    // return verdict
+    return now - birthdayUser >= dateTest;
 }
