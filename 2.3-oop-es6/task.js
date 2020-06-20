@@ -106,28 +106,34 @@ class Library {
   }
 }
 
-let library, printItem;
-library = new Library('Библиотека имени Ленина');
-printItem = new PrintEditionItem('Типовой школьный журнал', 2019, 102);
-console.log(library.name);
-console.log(library.books);
-// library.addBook(printItem);
-// console.log(library.books[0].name);
-// console.log(library.books.length);
-// library.addBook(printItem);
-// const firstBook = library.findBookBy("releaseDate", 2019);
-// console.log(firstBook.name);
-// const secondBook = library.findBookBy("releaseDate", 2154);
-// console.log(secondBook);
-library.addBook(printItem);
-console.log(library.books);
-const firstBook = library.giveBookByName('Типовой школьный журнал');
-console.log(firstBook.name);
-console.log(library.books.length);
-const secondBook = library.giveBookByName('Судовой журнал');
-console.log(secondBook);
+// task 3
 
-let qwe = library.addBook(new Book(123, 234, 345, 456));
-console.log(library.books);
-let wer = library.giveBookByName(234);
-console.log(wer.name);
+class StudentLog {
+  constructor(name) {
+    this.name = name;
+  }
+
+  getName() {
+    return this.name;
+  }
+
+  addGrade(grade, subject) {
+    if (!this[subject]) {
+      this[subject] = [];
+    }
+
+    if (grade >= 1 && grade <= 5) {
+      this[subject].push(grade);
+      return this[subject].length;
+    } else {
+      return `Вы пытались поставить оценку ${grade} по предмету ${subject}. Допускаются только числа от 1 до 5. \n ${this[subject].length}`
+    }
+  }
+
+  getAverageBySubject(subject) {
+    let sum = 0;
+    this[subject].forEach(element => sum += element);
+    let result = sum / this[subject].length;
+    return result;
+  }
+}
