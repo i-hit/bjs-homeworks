@@ -1,10 +1,9 @@
-'use srict';
+"use srict";
 
 //  task 1
 
 class PrintEditionItem {
   constructor(name, releaseDate, pagesCount) {
-  
     this.name = name;
     this.releaseDate = releaseDate;
     this.pagesCount = pagesCount;
@@ -37,37 +36,37 @@ class PrintEditionItem {
 
 class Magazine extends PrintEditionItem {
   constructor(name, releaseDate, pagesCount) {
-    super(name, releaseDate, pagesCount)
-    this.type = 'magazine';
+    super(name, releaseDate, pagesCount);
+    this.type = "magazine";
   }
 }
 
 class Book extends PrintEditionItem {
   constructor(author, name, releaseDate, pagesCount) {
-    super(name, releaseDate, pagesCount)
+    super(name, releaseDate, pagesCount);
     this.author = author;
-    this.type = 'book';
+    this.type = "book";
   }
 }
 
 class NovelBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
-    super(author, name, releaseDate, pagesCount)
-    this.type = 'novel';
+    super(author, name, releaseDate, pagesCount);
+    this.type = "novel";
   }
 }
 
 class FantasticBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
-    super(author, name, releaseDate, pagesCount)
-    this.type = 'fantastic';
+    super(author, name, releaseDate, pagesCount);
+    this.type = "fantastic";
   }
 }
 
 class DetectiveBook extends Book {
   constructor(author, name, releaseDate, pagesCount) {
-    super(author, name, releaseDate, pagesCount)
-    this.type = 'detective';
+    super(author, name, releaseDate, pagesCount);
+    this.type = "detective";
   }
 }
 
@@ -111,6 +110,7 @@ class Library {
 class StudentLog {
   constructor(name) {
     this.name = name;
+    this.scores = {};
   }
 
   getName() {
@@ -118,22 +118,99 @@ class StudentLog {
   }
 
   addGrade(grade, subject) {
-    if (!this[subject]) {
-      this[subject] = [];
+    if (!this.scores[subject]) {
+      this.scores[subject] = [];
     }
 
     if (grade >= 1 && grade <= 5) {
-      this[subject].push(grade);
-      return this[subject].length;
+      this.scores[subject].push(grade);
+      return this.scores[subject].length;
     } else {
-      return `Вы пытались поставить оценку ${grade} по предмету ${subject}. Допускаются только числа от 1 до 5. \n ${this[subject].length}`
+      console.log(`Вы пытались поставить оценку ${grade} по предмету ${subject}. Допускаются только числа от 1 до 5.`);
+      return this.scores[subject].length;
     }
   }
 
   getAverageBySubject(subject) {
     let sum = 0;
-    this[subject].forEach(element => sum += element);
-    let result = sum / this[subject].length;
+    let result = 0;
+    if (this.scores[subject] && this.scores[subject].length) {
+      this.scores[subject].forEach((element) => (sum += element));
+      result = sum / this.scores[subject].length;
+    }
+
+    return result;
+  }
+
+  getTotalAverage() {
+    let sum = 0;
+    let count = 0;
+
+    for (let prop in this.scores) {
+      for (let i = 0; i < this.scores[prop].length; i++) {
+        sum += this.scores[prop][i];
+        count++;
+      }
+    }
+
+    let result = count ? (sum / count) : 0;
+
     return result;
   }
 }
+
+// task 3 tests
+
+let studentLog;
+
+studentLog = new StudentLog("Иван Петров");
+
+console.log(studentLog.getName());
+
+console.log(studentLog.addGrade(3, "algebra"));
+console.log(studentLog.addGrade("5g", "algebra"));
+console.log(studentLog.addGrade(23, "geometry"));
+console.log(studentLog.addGrade(4, "geometry"));
+console.log(studentLog.addGrade(5, "geometry"));
+
+console.log(studentLog.getAverageBySubject("geometry")); // 4.5
+console.log(studentLog.getAverageBySubject("algebra")); // 3
+console.log(studentLog.getAverageBySubject("math")); // 0
+
+console.log(studentLog.getTotalAverage());
+
+
+studentLog = new StudentLog("Иван Dorn");
+
+console.log(studentLog.getName());
+
+console.log(studentLog.addGrade(34, "algebra"));
+console.log(studentLog.addGrade(54, "geometry"));
+
+console.log(studentLog.getAverageBySubject("geometry")); // 0
+console.log(studentLog.getAverageBySubject("algebra")); // 0
+console.log(studentLog.getAverageBySubject("math")); // 0
+
+console.log(studentLog.getTotalAverage());
+
+
+studentLog = new StudentLog("Garry Propper");
+
+console.log(studentLog.getName());
+
+console.log(studentLog.addGrade(3, "algebra"));
+console.log(studentLog.addGrade(4, "geometry"));
+console.log(studentLog.addGrade(5, "magls"));
+console.log(studentLog.addGrade(1, "poison"));
+console.log(studentLog.addGrade(3, "magicAttack"));
+console.log(studentLog.addGrade(7, "defence"));
+console.log(studentLog.addGrade(555, "speed"));
+console.log(studentLog.addGrade(4, "runes"));
+console.log(studentLog.addGrade(1, "liderChip"));
+
+console.log(studentLog.getAverageBySubject("geometry")); // 4
+console.log(studentLog.getAverageBySubject("algebra")); // 3
+console.log(studentLog.getAverageBySubject("math")); // 0
+console.log(studentLog.getAverageBySubject("magicAttack")); // 3
+
+console.log(studentLog.getTotalAverage());
