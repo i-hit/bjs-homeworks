@@ -16,16 +16,12 @@ class PrintEditionItem {
   }
 
   set state(number) {
-    switch (number) {
-      case number <= 0:
-        this._state = 0;
-        break;
-      case (number) => 100:
+    this._state = 0;
+    if (number > 0) {
+      this._state = number;
+      if (number >= 100) {
         this._state = 100;
-        break;
-      default:
-        this._state = 100;
-        break;
+      }
     }
   }
 
