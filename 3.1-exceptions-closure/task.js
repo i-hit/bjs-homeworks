@@ -1,12 +1,12 @@
-'use strict';
+"use strict";
 
 // task 1
 
 function parseCount(string) {
-  if (!(isNaN(Number.parseInt(string)))) {
+  if (!isNaN(Number.parseInt(string))) {
     return Number.parseInt(string);
   }
-  const err = new Error('Невалидное значение')
+  const err = new Error("Невалидное значение");
   throw err;
 }
 
@@ -15,11 +15,9 @@ function validateCount(string) {
     if (!isNaN(Number.parseInt(string))) {
       return Number.parseInt(string);
     }
-    const err = new Error('Невалидное значение')
+    const err = new Error("Невалидное значение");
     throw err;
-  }
-
-  catch(err) {
+  } catch (err) {
     return err;
   }
 }
@@ -28,8 +26,8 @@ function validateCount(string) {
 
 class Triangle {
   constructor(a, b, c) {
-    if ((a + b < c || (a + c) < b || (b + c) < a)) {
-      const err = new Error('Треугольник с такими сторонами не существует');
+    if (a + b < c || a + c < b || b + c < a) {
+      const err = new Error("Треугольник с такими сторонами не существует");
       throw err;
     }
 
@@ -45,19 +43,21 @@ class Triangle {
 
   getArea() {
     const p = this.getPerimeter() / 2;
-    const S = Math.sqrt((p * (p - this.sideA) * (p - this.sideB) * (p - this.sideC)));
-    return +(S.toFixed(3));
+    const S = Math.sqrt(
+      p * (p - this.sideA) * (p - this.sideB) * (p - this.sideC)
+    );
+    return +S.toFixed(3);
   }
 }
 
 class ErrorTriangle {
   constructor() {
-    this.err = 'Ошибка! Неправильный треугольник';
+    this.err = "Ошибка! Неправильный треугольник";
   }
   getArea() {
     return this.err;
   }
-  
+
   getPerimeter() {
     return this.err;
   }
@@ -65,10 +65,8 @@ class ErrorTriangle {
 
 function getTriangle(a, b, c) {
   try {
-    return new Triangle(a, b,  c);
-    }
-
-  catch(err) {
+    return new Triangle(a, b, c);
+  } catch (err) {
     return new ErrorTriangle();
   }
 }
