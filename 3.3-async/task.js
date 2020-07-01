@@ -38,37 +38,19 @@ class AlarmClock {
   }
 
   start() {
-
-    // 2 вариант - постоянно срабатывает функция первого будильника
-
-    // function checkClock(clock, time) {
-    //   if (time === clock.time) {
-    //     clock.callback();
-    //   }
-    // }
-
-    // if (!this.timerId) {
-    //   let time = this.getCurrentFormattedTime();
-    //   this.timerId = setInterval(() => {
-    //     this.alarmCollection.forEach((e) => checkClock(e, time));
-    //   }, 1000);
-    // }
-
-
-    function checkClock(clock) {
-      if (new Date().toLocaleTimeString([], { timeStyle: "short" }) === clock.time) {
+    function checkClock(clock, time) {
+      if (time === clock.time) {
         clock.callback();
       }
     }
 
     if (!this.timerId) {
       this.timerId = setInterval(() => {
-        this.alarmCollection.forEach((e) => checkClock(e));
+        this.alarmCollection.forEach((e) =>
+          checkClock(e, this.getCurrentFormattedTime())
+        );
       }, 1000);
-    }    
-
-
-
+    }
   }
 
   stop() {
