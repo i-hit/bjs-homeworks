@@ -13,41 +13,62 @@ class AlarmClock {
       throw new Error("id не указан");
     }
 
-    if (this.alarmCollection.find(alarm => alarm.id === id)) {
+    if (this.alarmCollection.find((alarm) => alarm.id === id)) {
       console.log("будильник уже существует");
       return;
     }
 
-    this.alarmCollection.push(
-      {
-        id: id,
-        callback: func,
-        time: time,
-      }
-    )
+    this.alarmCollection.push({
+      id: id,
+      callback: func,
+      time: time,
+    });
   }
 
   removeClock(id) {
-    if (this.alarmCollection.find(alarm => alarm.id === id)) {
-      let i = this.alarmCollection.findIndex(alarm => alarm.id === id);
+    if (this.alarmCollection.find((alarm) => alarm.id === id)) {
+      let i = this.alarmCollection.findIndex((alarm) => alarm.id === id);
       return this.alarmCollection.splice(i, 1) || false;
     }
   }
 
   getCurrentFormattedTime() {
-    return new Date().toLocaleTimeString([], {timeStyle: "short"});
+    let time = new Date().toLocaleTimeString([], { timeStyle: "short" });
+    return time;
   }
 
   start() {
-    function checkClock(alarm) {
-      if (new Date().toLocaleTimeString([], {timeStyle: "short"}) === alarm.time) {
-        alarm.callback();
+
+    // 2 вариант - постоянно срабатывает функция первого будильника
+
+    // function checkClock(clock, time) {
+    //   if (time === clock.time) {
+    //     clock.callback();
+    //   }
+    // }
+
+    // if (!this.timerId) {
+    //   let time = this.getCurrentFormattedTime();
+    //   this.timerId = setInterval(() => {
+    //     this.alarmCollection.forEach((e) => checkClock(e, time));
+    //   }, 1000);
+    // }
+
+
+    function checkClock(clock) {
+      if (new Date().toLocaleTimeString([], { timeStyle: "short" }) === clock.time) {
+        clock.callback();
       }
     }
 
     if (!this.timerId) {
-      this.timerId = setInterval( () => {this.alarmCollection.forEach( e => checkClock(e))}, 1000);
-    }
+      this.timerId = setInterval(() => {
+        this.alarmCollection.forEach((e) => checkClock(e));
+      }, 1000);
+    }    
+
+
+
   }
 
   stop() {
@@ -57,15 +78,18 @@ class AlarmClock {
   }
 
   printAlarms() {
-    console.log(`Печать всех будильников в количестве: ${this.alarmCollection.length}`);
-    this.alarmCollection.forEach( e => console.log(`Будильник №${e.id} заведен на ${e.time}`));
+    console.log(
+      `Печать всех будильников в количестве: ${this.alarmCollection.length}`
+    );
+    this.alarmCollection.forEach((e) =>
+      console.log(`Будильник №${e.id} заведен на ${e.time}`)
+    );
   }
 
   clearAlarms() {
     this.stop();
     this.alarmCollection = [];
   }
-
 }
 
 // task 2
@@ -75,38 +99,52 @@ let clock;
 function testCase() {
   clock = new AlarmClock();
 
-const date = new Date().toLocaleTimeString([], {timeStyle: "short"});
+  const date = new Date().toLocaleTimeString([], { timeStyle: "short" });
 
-function date1() {
-  let i = new Date().toLocaleTimeString([], {timeStyle: "short"}).split(":");
-  i[1] = Number(i[1]) + 1;
-  return i.join(":");
-}
+  function datePlus(minutes) {
+    let i = date.split(":");
+    i[1] = Number(i[1]) + minutes;
 
-function date2() {
-  let i = new Date().toLocaleTimeString([], {timeStyle: "short"}).split(":");
-  i[1] = Number(i[1]) + 2;
-  return i.join(":");
-}
+    if (i[1] > 59) {
+      i[0] = Number(i[0]) + 1;
+      i[1] = Number(i[1]) - 60;
+    }
 
+    if (i[0] === 24) {
+      i[0] = "00";
+    }
 
-clock.addClock(date, () => console.log("test"), 1);
+    if (i[1] < 10) {
+      i[1] = "0" + i[1];
+    }
 
-clock.addClock(date1(), () => {
-  console.log("test again");
-  clock.removeClock(2);
- }, 2);
+    return i.join(":");
+  }
 
-clock.addClock(date2(), () => {
-  console.log("some test text...");
-  clock.clearAlarms();
+  clock.addClock(date, () => console.log("test"), 1);
+
+  clock.addClock(
+    datePlus(1),
+    () => {
+      console.log("test again");
+      clock.removeClock(2);
+    },
+    2
+  );
+
+  clock.addClock(
+    datePlus(2),
+    () => {
+      console.log("some test text...");
+      clock.clearAlarms();
+      clock.printAlarms();
+    },
+    3
+  );
+
   clock.printAlarms();
- }, 3);
 
- clock.printAlarms();
-
- clock.start();
-
+  clock.start();
 }
 
 testCase();
